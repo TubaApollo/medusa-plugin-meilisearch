@@ -5,10 +5,11 @@ export default async function meilisearchCategoryCreatedHandler({
   event: { data },
   container,
 }: SubscriberArgs<{ id: string }>) {
-  await categoryCreatedWorkflow(container).run({
+  await categoryCreatedWorkflow.run({
     input: {
       id: data.id,
     },
+    container,
   })
 }
 

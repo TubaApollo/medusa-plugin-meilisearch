@@ -8,8 +8,9 @@ export default async function meilisearchProductsIndexJob(container: MedusaConta
 
   const {
     result: { products },
-  } = await syncProductsWorkflow(container).run({
+  } = await syncProductsWorkflow.run({
     input: {},
+    container,
   })
 
   logger.info(`Successfully indexed ${products.length} products`)

@@ -49,10 +49,14 @@ jobs:
           else
             echo "Package name $PACKAGE_NAME is available"
           fi
+    # Configure Yarn to use NPM_TOKEN
+      - name: Configure Yarn authentication
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          yarn config set npmAuthToken ${{ secrets.NPM_TOKEN }}
+          yarn config set npmRegistryServer "https://registry.npmjs.org"
       
-      # Only publish on main branch pushes
+      # Publish with Yarn
       - name: Publish Package to npm
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: yarn npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn npm publish --access public  

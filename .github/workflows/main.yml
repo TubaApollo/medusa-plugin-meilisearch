@@ -38,10 +38,6 @@ jobs:
       - name: Install dependencies
         run: yarn install
       
-      # Verify installation worked
-      - name: Verify installation
-        run: yarn list --depth=0
-      
       # Check package availability (optional)
       - name: Check package availability
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'

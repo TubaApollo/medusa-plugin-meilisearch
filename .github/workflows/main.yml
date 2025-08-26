@@ -1,0 +1,59 @@
+name: Node.js CI with Yarn 1
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      # Setup Node.js with Yarn caching
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'yarn'
+          registry-url: 'https://registry.npmjs.org'
+      
+      # Install Yarn v1 globally (GitHub runners come with Yarn v1 by default)
+      - name: Check Yarn version
+        run: yarn --version
+      
+      # Install dependencies with frozen lockfile for CI
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      
+      # Run tests (if configured)
+      - name: Run tests
+        run: |
+          if yarn run --silent test --help >/dev/null 2>&1; then
+            yarn test
+          else
+            echo "No test script found, skipping tests..."
+          fi
+      
+      # Build the project (if configured)
+      - name: Build project
+        run: |
+          if yarn run --silent build --help >/dev/null 2>&1; then
+            yarn build
+          else
+            echo "No build script found, skipping build..."
+          fi
+      
+      # Only publish on main branch pushes
+      - name: Publish Package to npm
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: yarn publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

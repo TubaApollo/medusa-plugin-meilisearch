@@ -1,8 +1,7 @@
 {
-  "name": "@rokmohar/medusa-plugin-meilisearch",
+  "name": "medusa-plugin-meilisearch-categories-products",
   "version": "1.2.3",
   "description": "Meilisearch plugin for Medusa 2",
-  "author": "Rok Mohar",
   "license": "MIT",
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 {
   "name": "medusa-plugin-meilisearch-categories-products",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Meilisearch plugin for Medusa 2",
   "license": "MIT",
   "repository": {

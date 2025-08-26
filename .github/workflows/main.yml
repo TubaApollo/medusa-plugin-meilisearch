@@ -34,9 +34,28 @@ jobs:
       - name: Check Yarn version
         run: yarn --version
       
-      # Install dependencies (immutable after migration)
+      # Install dependencies (allow lockfile migration on first run)
       - name: Install dependencies
-        run: yarn install --immutable
+        run: yarn install
+      
+      # Commit updated lockfile if this is a migration
+      - name: Check for lockfile changes
+        id: lockfile-check
+        run: |
+          if git diff --quiet yarn.lock; then
+            echo "lockfile-changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "lockfile-changed=true" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Commit lockfile migration
+        if: steps.lockfile-check.outputs.lockfile-changed == 'true' && github.event_name == 'push'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add yarn.lock
+          git commit -m "Migrate lockfile to Yarn 4 format" || echo "No changes to commit"
+          git push
       
       # Verify installation worked
       - name: Verify installation

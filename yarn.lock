@@ -6446,61 +6446,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rokmohar/medusa-plugin-meilisearch@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@rokmohar/medusa-plugin-meilisearch@workspace:."
-  dependencies:
-    "@medusajs/admin-sdk": "npm:^2.8.4"
-    "@medusajs/cli": "npm:^2.8.4"
-    "@medusajs/framework": "npm:^2.8.4"
-    "@medusajs/icons": "npm:^2.8.4"
-    "@medusajs/medusa": "npm:^2.8.4"
-    "@medusajs/test-utils": "npm:^2.8.4"
-    "@medusajs/ui": "npm:^4.0.8"
-    "@mikro-orm/cli": "npm:6.4.3"
-    "@mikro-orm/core": "npm:6.4.3"
-    "@mikro-orm/knex": "npm:6.4.3"
-    "@mikro-orm/migrations": "npm:6.4.3"
-    "@mikro-orm/postgresql": "npm:6.4.3"
-    "@swc/core": "npm:1.5.7"
-    "@types/node": "npm:^20"
-    "@types/react": "npm:^18"
-    "@types/react-dom": "npm:^18"
-    "@typescript-eslint/eslint-plugin": "npm:^8.21.0"
-    "@typescript-eslint/parser": "npm:^8.21.0"
-    awilix: "npm:^8.0.1"
-    eslint: "npm:^8"
-    eslint-config-prettier: "npm:^10.0.1"
-    eslint-plugin-prettier: "npm:^5.2.3"
-    meilisearch: "npm:^0.51.0"
-    pg: "npm:^8.13.0"
-    prettier: "npm:^3.4.2"
-    prop-types: "npm:^15.8.1"
-    react: "npm:^18"
-    react-dom: "npm:^18"
-    ts-node: "npm:^10.9.2"
-    typescript: "npm:^5"
-    vite: "npm:^5.2.11"
-    yalc: "npm:^1.0.0-pre.53"
-  peerDependencies:
-    "@medusajs/admin-sdk": ^2.8.4
-    "@medusajs/cli": ^2.8.4
-    "@medusajs/framework": ^2.8.4
-    "@medusajs/icons": ^2.8.4
-    "@medusajs/medusa": ^2.8.4
-    "@medusajs/test-utils": ^2.8.4
-    "@medusajs/ui": ^4.0.3
-    "@mikro-orm/cli": 6.4.3
-    "@mikro-orm/core": 6.4.3
-    "@mikro-orm/knex": 6.4.3
-    "@mikro-orm/migrations": 6.4.3
-    "@mikro-orm/postgresql": 6.4.3
-    "@tanstack/react-query": 5.64.2
-    awilix: ^8.0.1
-    pg: ^8.13.0
-  languageName: unknown
-  linkType: soft
-
 "@rollup/rollup-android-arm-eabi@npm:4.32.0":
   version: 4.32.0
   resolution: "@rollup/rollup-android-arm-eabi@npm:4.32.0"
@@ -11722,6 +11667,61 @@ __metadata:
   checksum: 10c0/d160f31246907e79fed398470285f21bafb45a62869dc469b1c8877f3f064f5eabc4bcc122f9479b8b605bc5c76187d7871cf84c4ee3ecd3e487da1993279928
   languageName: node
   linkType: hard
+
+"medusa-plugin-meilisearch-categories-products@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "medusa-plugin-meilisearch-categories-products@workspace:."
+  dependencies:
+    "@medusajs/admin-sdk": "npm:^2.8.4"
+    "@medusajs/cli": "npm:^2.8.4"
+    "@medusajs/framework": "npm:^2.8.4"
+    "@medusajs/icons": "npm:^2.8.4"
+    "@medusajs/medusa": "npm:^2.8.4"
+    "@medusajs/test-utils": "npm:^2.8.4"
+    "@medusajs/ui": "npm:^4.0.8"
+    "@mikro-orm/cli": "npm:6.4.3"
+    "@mikro-orm/core": "npm:6.4.3"
+    "@mikro-orm/knex": "npm:6.4.3"
+    "@mikro-orm/migrations": "npm:6.4.3"
+    "@mikro-orm/postgresql": "npm:6.4.3"
+    "@swc/core": "npm:1.5.7"
+    "@types/node": "npm:^20"
+    "@types/react": "npm:^18"
+    "@types/react-dom": "npm:^18"
+    "@typescript-eslint/eslint-plugin": "npm:^8.21.0"
+    "@typescript-eslint/parser": "npm:^8.21.0"
+    awilix: "npm:^8.0.1"
+    eslint: "npm:^8"
+    eslint-config-prettier: "npm:^10.0.1"
+    eslint-plugin-prettier: "npm:^5.2.3"
+    meilisearch: "npm:^0.51.0"
+    pg: "npm:^8.13.0"
+    prettier: "npm:^3.4.2"
+    prop-types: "npm:^15.8.1"
+    react: "npm:^18"
+    react-dom: "npm:^18"
+    ts-node: "npm:^10.9.2"
+    typescript: "npm:^5"
+    vite: "npm:^5.2.11"
+    yalc: "npm:^1.0.0-pre.53"
+  peerDependencies:
+    "@medusajs/admin-sdk": ^2.8.4
+    "@medusajs/cli": ^2.8.4
+    "@medusajs/framework": ^2.8.4
+    "@medusajs/icons": ^2.8.4
+    "@medusajs/medusa": ^2.8.4
+    "@medusajs/test-utils": ^2.8.4
+    "@medusajs/ui": ^4.0.3
+    "@mikro-orm/cli": 6.4.3
+    "@mikro-orm/core": 6.4.3
+    "@mikro-orm/knex": 6.4.3
+    "@mikro-orm/migrations": 6.4.3
+    "@mikro-orm/postgresql": 6.4.3
+    "@tanstack/react-query": 5.64.2
+    awilix: ^8.0.1
+    pg: ^8.13.0
+  languageName: unknown
+  linkType: soft
 
 "meilisearch@npm:^0.51.0":
   version: 0.51.0

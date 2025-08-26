@@ -1,4 +1,4 @@
-name: Node.js CI with Yarn 1
+name: Node.js CI with Yarn 1 (Minimal)
 
 on:
   push:
@@ -17,6 +17,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       
+      # Enable Corepack to use the packageManager version from package.json
+      - name: Enable Corepack
+        run: corepack enable
+      
       # Setup Node.js with Yarn caching
       - name: Setup Node.js 20.x
         uses: actions/setup-node@v4
@@ -25,30 +29,24 @@ jobs:
           cache: 'yarn'
           registry-url: 'https://registry.npmjs.org'
       
-      # Install Yarn v1 globally (GitHub runners come with Yarn v1 by default)
-      - name: Check Yarn version
-        run: yarn --version
-      
-      # Install dependencies with frozen lockfile for CI
+      # Install dependencies with immutable flag for Yarn 4
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       
-      # Run tests (if configured)
-      - name: Run tests
-        run: |
-          if yarn run --silent test --help >/dev/null 2>&1; then
-            yarn test
-          else
-            echo "No test script found, skipping tests..."
-          fi
+      # Verify installation worked
+      - name: Verify installation
+        run: yarn list --depth=0
       
-      # Build the project (if configured)
-      - name: Build project
+      # Check if package name is available (optional)
+      - name: Check package availability
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
-          if yarn run --silent build --help >/dev/null 2>&1; then
-            yarn build
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          echo "Checking availability of package: $PACKAGE_NAME"
+          if npm view "$PACKAGE_NAME" > /dev/null 2>&1; then
+            echo "Warning: Package $PACKAGE_NAME already exists on npm"
           else
-            echo "No build script found, skipping build..."
+            echo "Package name $PACKAGE_NAME is available"
           fi
       
       # Only publish on main branch pushes

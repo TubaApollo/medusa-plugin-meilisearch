@@ -1,4 +1,4 @@
-name: Node.js CI with Yarn 4 (Simple)
+name: Node.js CI with Yarn 4 (Complete)
 
 on:
   push:
@@ -17,12 +17,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       
-      # Setup Node.js
+      # Setup Node.js with npm registry configuration
       - name: Setup Node.js 20.x
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
+          always-auth: true
       
       # Enable Corepack and install Yarn 4
       - name: Setup Yarn 4
@@ -34,9 +35,44 @@ jobs:
       - name: Check Yarn version
         run: yarn --version
       
-      # Install dependencies (allow lockfile creation for CI)
+      # Install dependencies
       - name: Install dependencies
         run: yarn install
+      
+      # Build the project (compile src to dist)
+      - name: Build project
+        run: |
+          if yarn run --silent build --help >/dev/null 2>&1; then
+            echo "Building project..."
+            yarn build
+          else
+            echo "No build script found. Checking if TypeScript is available..."
+            if command -v tsc >/dev/null 2>&1; then
+              echo "Running TypeScript compiler directly..."
+              tsc
+            else
+              echo "No build process configured. Make sure your package.json includes the src files."
+            fi
+          fi
+      
+      # Verify build output
+      - name: Verify build output
+        run: |
+          echo "Project structure after build:"
+          ls -la
+          if [ -d "dist" ]; then
+            echo "Contents of dist/:"
+            ls -la dist/
+          elif [ -d "lib" ]; then
+            echo "Contents of lib/:"
+            ls -la lib/
+          else
+            echo "No dist/ or lib/ directory found."
+          fi
+      
+      # Show what will be published
+      - name: Preview package contents
+        run: npm pack --dry-run
       
       # Check package availability (optional)
       - name: Check package availability
@@ -49,14 +85,10 @@ jobs:
           else
             echo "Package name $PACKAGE_NAME is available"
           fi
-    # Configure Yarn to use NPM_TOKEN
-      - name: Configure Yarn authentication
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          yarn config set npmAuthToken ${{ secrets.NPM_TOKEN }}
-          yarn config set npmRegistryServer "https://registry.npmjs.org"
       
-      # Publish with Yarn
+      # Only publish on main branch pushes
       - name: Publish Package to npm
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: yarn npm publish --access public  
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

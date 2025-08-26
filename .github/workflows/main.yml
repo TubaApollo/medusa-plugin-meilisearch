@@ -1,4 +1,4 @@
-name: Node.js CI with Yarn 1 (Minimal)
+name: Node.js CI with Yarn 4
 
 on:
   push:
@@ -17,19 +17,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       
-      # Enable Corepack to use the packageManager version from package.json
-      - name: Enable Corepack
-        run: corepack enable
-      
-      # Setup Node.js with Yarn caching
+      # Setup Node.js
       - name: Setup Node.js 20.x
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-          cache: 'yarn'
           registry-url: 'https://registry.npmjs.org'
       
-      # Install dependencies with immutable flag for Yarn 4
+      # Install specific Yarn version
+      - name: Install Yarn 4.9.2
+        run: |
+          corepack enable
+          corepack install
+      
+      # Verify Yarn version
+      - name: Check Yarn version
+        run: yarn --version
+      
+      # Install dependencies (immutable after migration)
       - name: Install dependencies
         run: yarn install --immutable
       
@@ -37,21 +42,9 @@ jobs:
       - name: Verify installation
         run: yarn list --depth=0
       
-      # Check if package name is available (optional)
-      - name: Check package availability
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          PACKAGE_NAME=$(node -p "require('./package.json').name")
-          echo "Checking availability of package: $PACKAGE_NAME"
-          if npm view "$PACKAGE_NAME" > /dev/null 2>&1; then
-            echo "Warning: Package $PACKAGE_NAME already exists on npm"
-          else
-            echo "Package name $PACKAGE_NAME is available"
-          fi
-      
       # Only publish on main branch pushes
       - name: Publish Package to npm
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: yarn publish --access public
+        run: yarn npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
